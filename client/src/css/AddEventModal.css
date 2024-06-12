@@ -1,0 +1,41 @@
+.event-modal {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    width: 300px;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.event-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-input,
+.datetime-input {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.date-picker label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.submit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
