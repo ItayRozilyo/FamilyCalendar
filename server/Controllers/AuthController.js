@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
+const Calendar = require("../Models/Calendar");
 
 const router = express.Router();
 
@@ -21,6 +22,12 @@ router.post("/register", async (req, res) => {
     });
 
     await newUser.save();
+
+    const userCalendar = new Calendar({
+      owner: newUser._id,
+    });
+
+    await userCalendar.save();
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -49,7 +56,7 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign({ userId: user._id }, "1234", {
       expiresIn: "1h",
     });
-    
+
     res.json({ token });
   } catch (error) {
     console.error("Error logging in:", error);

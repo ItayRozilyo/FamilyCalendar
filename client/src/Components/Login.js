@@ -5,6 +5,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
+axios.defaults.withCredentials = true
+
 const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -20,7 +22,6 @@ const Login = () => {
         console.log(result.data);
         if (result.data && result.data.token) {
           Cookies.set("token", result.data.token);
-          axios.defaults.withCredentials = true
           navigate("/calendar");
         } else {
           alert("Incorrect password! Please try again.");

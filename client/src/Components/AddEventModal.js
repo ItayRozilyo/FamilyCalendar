@@ -4,12 +4,16 @@ import Datetime from "react-datetime";
 import PropTypes from "prop-types";
 import "../css/AddEventModal.css"; // Import CSS file for styling
 
-const AddEventModal = ({ isOpen, onClose, onEventAdded }) => {
+const AddEventModal = ({ isOpen, onClose, onEventAdded, calendars }) => {
+  // TODO - add dropdown of choosing which db it is
   const [title, setTitle] = useState("");
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
+  const [value, setValue] = useState();
+  console.log(calendars);
 
   const onSubmit = (event) => {
+    console.log(event);
     event.preventDefault();
 
     // Check if start date is later than end date
@@ -18,14 +22,22 @@ const AddEventModal = ({ isOpen, onClose, onEventAdded }) => {
       return;
     }
 
+    const calendarId = value ? value : calendars.owned[0].id;
+
     const eventData = {
       title,
       start: start.toISOString(),
       end: end.toISOString(),
+      calendar: calendarId,
     };
 
     onEventAdded(eventData);
     onClose();
+  };
+
+  const handleSelectChange = (event) => {
+    console.log(event.target);
+    setValue(event.target.value);
   };
 
   return (
@@ -53,6 +65,16 @@ const AddEventModal = ({ isOpen, onClose, onEventAdded }) => {
             isValidDate={(currentDate) => currentDate.isAfter(start)}
             className="datetime-input"
           />
+        </div>
+        <div className="calendar-picker">
+          <label>Which Calendar?</label>
+          <select value={value} onChange={handleSelectChange}>
+            {[...calendars.owned, ...calendars.edit].map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
         </div>
         <button type="submit" className="submit-button">
           Add event

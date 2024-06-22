@@ -3,11 +3,21 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import axios from "axios";
 import AddEventModal from "./AddEventModal";
+import PermissionsModal from "./PermissionSelector";
+
+axios.defaults.withCredentials = true;
 
 const Calendar = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [permissionsModalOpen, setPermissionsOpen] = useState(false);
   const [events, setEvents] = useState([]);
-  const [calendars, setCalendars] = useState([]);
+  const [users, setUsers] = useState({
+    editors: [],
+    viewers: [],
+    noPermissions: [],
+  });
+  const [calendars, setCalendars] = useState({ owned: [], edit: [], view: [] });
+  const [privilegedCalendars, setPrivilegedCalendars] = useState([]);
   const calendarRef = useRef(null);
 
   useEffect(() => {
@@ -28,15 +38,47 @@ const Calendar = () => {
           "http://localhost:5002/api/calendar/get-calendars"
         );
         setCalendars(response.data);
+        setPrivilegedCalendars([...response.data.owned, ...response.data.edit]);
       } catch (error) {
         console.error("Error fetching calendars", error);
       }
-    }
+    };
 
+    fetchCalendars();
     fetchEvents();
+    fetchUsers();
   }, []);
 
+  const isPrivilegedCalendar = (calendarId) => {
+    return privilegedCalendars.some((cal) => cal.id === calendarId);
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5002/api/calendar/get-users"
+      );
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error fetching users", error);
+    }
+  };
+
+  const updatePermissions = async (newPermissions) => {
+    console.log(newPermissions);
+    try {
+      await axios.post(
+        "http://localhost:5002/api/calendar/edit-permissions",
+        newPermissions
+      );
+      fetchUsers();
+    } catch (error) {
+      console.error("Error updating permissions:", error);
+    }
+  };
+
   const onEventAdded = async (event) => {
+    console.log(event);
     try {
       const response = await axios.post(
         "http://localhost:5002/api/calendar/create-event",
@@ -67,6 +109,9 @@ const Calendar = () => {
   return (
     <section>
       <button onClick={() => setModalOpen(true)}>Add Event</button>
+      <button onClick={() => setPermissionsOpen(true)}>
+        Change Permissions
+      </button>
       <div style={{ position: "relative", zIndex: 0 }}>
         <FullCalendar
           ref={calendarRef}
@@ -78,11 +123,13 @@ const Calendar = () => {
             <div>
               <b>{arg.timeText}</b>
               <i>{arg.event.title}</i>
-              <button
-                onClick={() => handleEventDelete(arg.event.extendedProps._id)}
-              >
-                Delete
-              </button>
+              {isPrivilegedCalendar(arg.event.extendedProps.calendar) && (
+                <button
+                  onClick={() => handleEventDelete(arg.event.extendedProps._id)}
+                >
+                  Delete
+                </button>
+              )}
             </div>
           )}
         />
@@ -91,6 +138,15 @@ const Calendar = () => {
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         onEventAdded={(event) => onEventAdded(event)}
+        calendars={calendars}
+      />
+      <PermissionsModal
+        isOpen={permissionsModalOpen}
+        onClose={() => setPermissionsOpen(false)}
+        onPermissionsUpdated={(newPermissions) =>
+          updatePermissions(newPermissions)
+        }
+        users={users}
       />
     </section>
   );
