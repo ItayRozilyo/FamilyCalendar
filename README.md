@@ -6,7 +6,7 @@ HELLO , Welcome to Family calendar
 
 backend:
 1. create a new file called .env in the folder "server" , than add this command to the file:
-   MONGODB_URI=mongodb://localhost:27017/<yourDBname>
+   MONGODB_URI=mongodb://localhost:27017/yourDBname
 
 2.open a new Terminal and type "cd server"
 
