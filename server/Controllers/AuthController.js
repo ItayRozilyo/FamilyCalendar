@@ -40,19 +40,19 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if user exists
+
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    // Check password
+
     const isPasswordValid = password == user.password;
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    // Generate JWT token
+    
     const token = jwt.sign({ userId: user._id }, "1234", {
       expiresIn: "1h",
     });

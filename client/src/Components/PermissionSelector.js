@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import PropTypes from "prop-types";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import "../css/PermissionsModal.css"; // Import CSS file for styling
+import "../css/PermissionsModal.css"; 
 
 const ITEM_TYPE = "USER";
 

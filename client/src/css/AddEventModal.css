@@ -6,36 +6,62 @@
     width: 300px;
     max-width: 90%;
     margin: 0 auto;
-}
-
-.event-form {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .event-form {
     display: flex;
     flex-direction: column;
-}
-
-.event-input,
-.datetime-input {
+  }
+  
+  .event-input,
+  .datetime-input {
     margin-bottom: 10px;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 14px;
-}
-
-.date-picker label {
+  }
+  
+  .date-picker label {
     margin-bottom: 5px;
     font-weight: bold;
-}
-
-.submit-button {
+  }
+  
+  .calendar-picker label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .calendar-picker select {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+  }
+  
+  /* AddEvent button styling */
+  .add-event-button {
     background-color: #007bff;
     color: #fff;
     border: none;
-    border-radius: 3px;
-    padding: 10px 20px;
+    border-radius: 25px;
+    padding: 12px 25px;
     cursor: pointer;
-}
-
-.submit-button:hover {
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .add-event-button:hover {
     background-color: #0056b3;
-}
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .add-event-button:active {
+    background-color: #004085;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  

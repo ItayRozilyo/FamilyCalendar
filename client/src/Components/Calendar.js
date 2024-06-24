@@ -102,17 +102,77 @@ const Calendar = () => {
     }
   };
 
-  const handleEventClick = (info) => {
-    // Handle event click here
+  const handleEventClick = (info) => {};
+
+  const handleLogout = () => {
+    window.location.href = "/login";
   };
 
   return (
-    <section>
-      <button onClick={() => setModalOpen(true)}>Add Event</button>
-      <button onClick={() => setPermissionsOpen(true)}>
-        Change Permissions
-      </button>
-      <div style={{ position: "relative", zIndex: 0 }}>
+    <section
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100vh",
+      }}
+    >
+      <div style={{ alignSelf: "center", marginBottom: "20px" }}>
+        <button
+          onClick={() => setPermissionsOpen(true)}
+          style={{
+            backgroundColor: "#28a745",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            padding: "10px 20px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "background-color 0.3s, box-shadow 0.3s",
+            marginRight: "10px",
+          }}
+        >
+          Change Permissions
+        </button>
+        <button
+          onClick={() => setModalOpen(true)}
+          style={{
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            padding: "10px 20px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "background-color 0.3s, box-shadow 0.3s",
+            marginRight: "10px",
+          }}
+        >
+          Add Event
+        </button>
+        <button
+          onClick={handleLogout}
+          style={{
+            backgroundColor: "#dc3545",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            padding: "10px 20px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "background-color 0.3s, box-shadow 0.3s",
+          }}
+        >
+          Logout
+        </button>
+      </div>
+      <div style={{ position: "relative", zIndex: 0, width: "100%" }}>
         <FullCalendar
           ref={calendarRef}
           plugins={[dayGridPlugin]}
@@ -126,6 +186,18 @@ const Calendar = () => {
               {isPrivilegedCalendar(arg.event.extendedProps.calendar) && (
                 <button
                   onClick={() => handleEventDelete(arg.event.extendedProps._id)}
+                  style={{
+                    backgroundColor: "#dc3545",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    transition: "background-color 0.3s, box-shadow 0.3s",
+                    marginTop: "5px",
+                  }}
                 >
                   Delete
                 </button>

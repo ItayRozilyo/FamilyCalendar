@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import Datetime from "react-datetime";
 import PropTypes from "prop-types";
-import "../css/AddEventModal.css"; // Import CSS file for styling
+import "../css/AddEventModal.css"; 
 
 const AddEventModal = ({ isOpen, onClose, onEventAdded, calendars }) => {
-  // TODO - add dropdown of choosing which db it is
   const [title, setTitle] = useState("");
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
@@ -16,7 +15,6 @@ const AddEventModal = ({ isOpen, onClose, onEventAdded, calendars }) => {
     console.log(event);
     event.preventDefault();
 
-    // Check if start date is later than end date
     if (start > end) {
       alert("Start date cannot be later than end date");
       return;

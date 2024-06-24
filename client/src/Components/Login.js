@@ -35,8 +35,10 @@ const Login = () => {
       <div
         className="d-flex justify-content-center align-items-center text-center vh-100"
         style={{
-          backgroundImage:
-            "linear-gradient(#00d5ff,#0095ff,rgba(93,0,255,.555))",
+          backgroundImage: "url('../../../calendar.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
         }}
       >
         <div className="bg-white p-3 rounded" style={{ width: "40%" }}>

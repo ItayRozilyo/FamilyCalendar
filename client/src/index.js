@@ -4,7 +4,7 @@ import "./index.css";
 import "react-datetime/css/react-datetime.css";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/index.cjs";
-import App from "./Components/App"; // Importing App.jsx from the Components directory
+import App from "./Components/App"; 
 
 ReactDOM.render(
   <React.StrictMode>

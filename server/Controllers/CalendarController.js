@@ -10,7 +10,7 @@ const router = express.Router();
 router.get("/get-calendars", async (req, res) => {
   try {
     token = getTokenFromReq(req);
-    // TODO - return as json of owned, edit, view (so the frontend knows)
+   
     const owned = await Calendar.find({ owner: token.userId }).populate(
       "owner",
       "name"
@@ -47,12 +47,12 @@ router.get("/get-users", async (req, res) => {
     const token = getTokenFromReq(req);
     const userId = token.userId;
 
-    // Get all users
+   
     const allUsers = await User.find({ _id: { $ne: userId } }).select(
       "id name"
     );
 
-    // Get the user's single calendar
+   
     const myCalendar = await Calendar.findOne({ owner: userId }).populate(
       "editors viewers"
     );
@@ -63,11 +63,11 @@ router.get("/get-users", async (req, res) => {
         .json({ message: "No calendar found for the user." });
     }
 
-    // Create sets to store unique editor and viewer IDs
+    
     const editorIds = new Set(myCalendar.editors.map((editor) => editor.id));
     const viewerIds = new Set(myCalendar.viewers.map((viewer) => viewer.id));
 
-    // Categorize users based on their roles
+    
     const editors = [];
     const viewers = [];
     const noPermissions = [];
@@ -82,7 +82,7 @@ router.get("/get-users", async (req, res) => {
       }
     });
 
-    // Format the response
+    
     const response = {
       editors,
       viewers,
@@ -97,7 +97,7 @@ router.get("/get-users", async (req, res) => {
 });
 
 router.post("/edit-permissions", async (req, res) => {
-  // {editors: [id1, id2], viewers: [id3, id4]}
+ 
   try {
     token = getTokenFromReq(req);
     const myCalendar = await Calendar.findOne({ owner: token.userId });
@@ -129,7 +129,7 @@ router.get("/get-events", async (req, res) => {
     const token = getTokenFromReq(req);
     const userId = token.userId;
 
-    // Find all calendars the user has access to
+    
     const ownedCalendars = await Calendar.find({ owner: userId }).select("_id");
     const editCalendars = await Calendar.find({ editors: userId }).select(
       "_id"
@@ -138,14 +138,14 @@ router.get("/get-events", async (req, res) => {
       "_id"
     );
 
-    // Extract calendar IDs
+    
     const calendarIds = [
       ...ownedCalendars.map((calendar) => calendar._id),
       ...editCalendars.map((calendar) => calendar._id),
       ...viewCalendars.map((calendar) => calendar._id),
     ];
 
-    // Find all events in the accessible calendars
+    
     const events = await Event.find({ calendar: { $in: calendarIds } });
     console.log("calendars: ", calendarIds);
     console.log("Fetched events:", events);
